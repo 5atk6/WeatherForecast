@@ -17,12 +17,19 @@ public class MainActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.tv_main);
 
-        try {
-            String data = WeatherApi.getWeather(this, "40040");
-            textView.setText(data);
-        } catch (IOException e) {
-            Toast.makeText(this, "IOException is occurred",
-                    Toast.LENGTH_SHORT).show();
-        }
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    String data = WeatherApi.getWeather(MainActivity.this,
+                            "40040");
+                    textView.setText(data);
+                } catch (IOException e) {
+                    Toast.makeText(MainActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        thread.start();
     }
 }
