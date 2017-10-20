@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
+import android.os.Handler;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +23,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    String data = WeatherApi.getWeather(MainActivity.this,
+                    final String data = WeatherApi.getWeather(MainActivity.this,
                             "40040");
-                    textView.setText(data);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            textView.setText(data);
+                        }
+                    });
                 } catch (IOException e) {
-                    Toast.makeText(MainActivity.this, e.getMessage(),
-                            Toast.LENGTH_SHORT).show();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         };
