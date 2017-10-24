@@ -82,6 +82,37 @@ public class WeatherForecast {
             }
         }
 
-        
+        public class Temperature{
+            public final Temp min;
+            public final Temp max;
+
+            public Temperature(JSONObject jsonObject) throws JSONException{
+                if (!jsonObject.isNull("min")) {
+                    min = new Temp(jsonObject.getJSONObject("min"));
+                } else {
+                    min = new Temp(null);
+                }
+                if (!jsonObject.isNull("max")) {
+                    max = new Temp(jsonObject.getJSONObject("max"));
+                } else {
+                    max = new Temp(null);
+                }
+            }
+        }
+
+        public class Temp {
+            public final String celsius;
+            public final String fahrenheit;
+
+            public Temp(JSONObject jsonObject) throws JSONException{
+                if (jsonObject == null) {
+                    celsius = null;
+                    fahrenheit = null;
+                    return;
+                }
+                celsius = jsonObject.getString("celsius");
+                fahrenheit = jsonObject.getString("fahrenheit");
+            }
+        }
     }
 }
