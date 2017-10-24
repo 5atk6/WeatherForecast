@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 /**
  * Created by atk on 2017/10/23.
@@ -30,6 +31,18 @@ public class WeatherForecast {
             JSONObject forecastJson = forecastArray.getJSONObject(i);
             Forecast forecast = new Forecast(forecastJson);
             forecastList.add(forecast);
+        }
+    }
+
+    public class Location {
+        public final String area;
+        public final String prefecture;
+        public final String city;
+
+        public Location(JSONObject jsonObject) throws JSONException {
+            area = jsonObject.getString("area");
+            prefecture = jsonObject.getString("prefecture");
+            city = jsonObject.getString("city");
         }
     }
 }
