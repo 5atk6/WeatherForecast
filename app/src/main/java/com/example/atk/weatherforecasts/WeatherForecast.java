@@ -45,4 +45,43 @@ public class WeatherForecast {
             city = jsonObject.getString("city");
         }
     }
+
+    public class Forecast {
+        public final String date;
+        public final String dateLabel;
+        public final String telop;
+        public final Image image;
+        public final Temperature temperature;
+
+        public Forecast(JSONObject jsonObject) throws JSONException {
+
+            date = jsonObject.getString("date");
+            dateLabel = jsonObject.getString("dataLabel");
+            telop = jsonObject.getString("telop");
+            image = new Image(jsonObject.getJSONObject("image"));
+            temperature = new Temperature(jsonObject.getJSONObject("temperature"));
+        }
+
+        public class Image {
+            public final String title;
+            public final String link;
+            public final String url;
+            public final int width;
+            public final int height;
+
+            public Image(JSONObject jsonObject) throws JSONException {
+                title = jsonObject.getString("title");
+                if (jsonObject.has("link")) {
+                    link = jsonObject.getString("link");
+                } else {
+                    link = null;
+                }
+                url = jsonObject.getString("url");
+                width = jsonObject.getInt("width");
+                height = jsonObject.getInt("height");
+            }
+        }
+
+        
+    }
 }
