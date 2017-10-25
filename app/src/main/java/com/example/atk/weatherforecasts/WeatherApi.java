@@ -11,14 +11,16 @@ import org.apache.http.client.methods.HttpGet;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class WeatherApi {
     private static final String USER_AGENT = "WeatherForecasts Sample";
     private static final String URL =
             "http://weather.livedoor.com/forecast/webservice/json/vl?city=";
 
-    public static String getWeather(Context context, String pointId) throws IOException {
+    public static WeatherForecast getWeather(Context context, String pointId) throws IOException, JSONException {
         AndroidHttpClient client = AndroidHttpClient.newInstance(USER_AGENT, context);
         HttpGet get = new HttpGet(URL + pointId);
 
@@ -36,6 +38,6 @@ public class WeatherApi {
             client.close();
         }
 
-        return sb.toString();
+        return new WeatherForecast(new JSONObject(sb.toString()));
     }
 }
